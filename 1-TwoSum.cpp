@@ -49,6 +49,7 @@ template <typename T> void PrintVec(vector<T> &data, char sep = ' ', char eol = 
 vector<int> twoSum(vector<int>& nums, int target)
 {
     // find two elements whose sum is target
+    // solution: hashmap, complementary number
 
     if (nums.size() <= 0)
         return vector<int>();
