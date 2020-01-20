@@ -59,6 +59,7 @@ template <typename T> void PrintVec(vector<T> &data, char sep = ' ', char eol = 
 int uniquePaths(int m, int n)
 {
     // number of unique paths from top-left to bottom-right
+    // solution: dynamic programming
 
     if (m < 0 || m > 100 || n < 0 || n > 100)
         return 0;
