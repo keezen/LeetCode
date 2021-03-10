@@ -34,6 +34,7 @@ Constraints:
 # include <string>
 # include <unordered_map>
 # include <unordered_set>
+# include <climits>
 using namespace std;
 
 
@@ -54,7 +55,7 @@ template <typename T> void PrintVec(vector<T> &data, char sep = ' ', char eol = 
 }
 
 
-int maxProduct(vector<int>& nums)
+int maxProductPN(vector<int>& nums)
 {
     // largest product of sub-array
     // solution: track positive and negative with maximum absolute
@@ -93,6 +94,70 @@ int maxProduct(vector<int>& nums)
 
     return max_pro;
 }
+
+
+int maxProductMaxMin(vector<int>& nums)
+{
+    // largest product of sub-array
+    // solution: track maximum and minimum product ending with current element
+
+    if (nums.size() <= 0)
+        return 0;
+
+    if (nums.size() == 1)
+        return nums[0];
+    
+    int max_pro = nums[0];
+    int maxp = nums[0], minp = nums[0];
+    int i;
+    for (i = 1; i < nums.size(); i++)
+    {
+        if (nums[i] < 0)
+            swap(maxp, minp);
+
+        maxp = max(maxp * nums[i], nums[i]);
+        minp = min(minp * nums[i], nums[i]);
+
+        max_pro = max(max_pro, maxp);
+    }
+
+    return max_pro;
+}
+
+
+int maxProduct(vector<int>& nums)
+{
+    // largest product of sub-array
+    // solution: two pass, target sub-array must start from either end
+    //     except for 0
+
+    if (nums.size() <= 0)
+        return 0;
+
+    if (nums.size() == 1)
+        return nums[0];
+    
+    int max_pro = INT32_MIN, pro;
+    int i;
+    for (i = 0, pro = 1; i < nums.size(); i++)
+    {
+        pro *= nums[i];
+        max_pro = max(pro, max_pro);
+        if (nums[i] == 0)
+            pro = 1;
+    }
+
+    for (i = nums.size()-1, pro = 1; i >= 0; i--)
+    {
+        pro *= nums[i];
+        max_pro = max(pro, max_pro);
+        if (nums[i] == 0)
+            pro = 1;
+    }
+
+    return max_pro;
+}
+
 
 
 int main(int argc, char *argv[])
